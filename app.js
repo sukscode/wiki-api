@@ -75,9 +75,41 @@ app.route("/articles/:articleTitle")
     }
   });
 })
-.put()
-.patch()
-.delete();
+.put(function(req,res) {
+  Article.update({title:req.params.articleTitle},
+  {
+    title:req.body.title,content:req.body.content},
+  {overwrite:true},
+function(err){
+  if(!err)
+  res.send("updated");
+})
+})
+.patch(function(req,res){
+  Article.update(
+    {title:req.params.articleTitle},
+    {$set:req.body},
+    function(err){
+      if(!err){
+        res.send("successfully updated one");
+      }else{
+        console.log(err);
+      }
+    }
+  )
+})
+.delete(function(req,res){
+  Article.deleteOne(
+    {title:req.params.articleTitle},
+    function(err){
+      if(!err){
+        res.send("successfully deleted one");
+      }else{
+        console.log(err);
+      }
+    }
+  )
+});
 
 //todo
 app.listen(3000, function() {
