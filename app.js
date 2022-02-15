@@ -63,6 +63,21 @@ app.delete("/articles",function(req,res){
   });
 });
 
+////////////////REQUEST TARGETTING A SPECIFIC ARTICLE/////////////
+//chaining for jack-bauer
+app.route("/articles/:articleTitle")
+.get(function(req,res){
+  Article.findOne({title:req.params.articleTitle},function(err,foundArticles) {
+    if(foundArticles){
+      res.send(foundArticles);
+    }else{
+      console.log("No articles were found");
+    }
+  });
+})
+.put()
+.patch()
+.delete();
 
 //todo
 app.listen(3000, function() {
